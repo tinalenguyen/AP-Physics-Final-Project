@@ -1,22 +1,26 @@
 CatRocket cat;
-Planet planetS;
-PShape earth;
+Planet planets[];
+int level;
+PImage earthPlanet;
+PImage catRocket;
 
 void setup(){
     size(1080, 800);
     background(0);
     cat = new CatRocket();
-    planetS = new Planet[3];
+    planets = new Planet[3];
     
-  //  earth = loadShape("earth.svg");    
-  
-    planets[0] = earth;
-  
+    earthPlanet = loadImage("earth.png");  
+    earthPlanet.resize(250, 225);
+    catRocket = loadImage("catrocket.png");
+    catRocket.resize(75, 75);
+    
+    planets[0] = new Earth();
 }
 
  void draw(){
-    if (level==0){
-      //display earth
-    }
+ 
+    image(earthPlanet, height/2, 300);
+    image(catRocket, (height/2) + 90, 234);
    
  }

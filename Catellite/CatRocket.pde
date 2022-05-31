@@ -1,7 +1,9 @@
 public class CatRocket {
-  int mass;
+  double mass;
   
   CatRocket(){
     mass = 448648;
   
   }
+  
+}
