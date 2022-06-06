@@ -4,6 +4,10 @@ public class Planet {
  double radius; //in km
  float gravity; // constant for each planet, m/(s^2)
  
+ public double getRadius(){
+   return radius; 
+ }
+ 
   Planet(){
     
   }
