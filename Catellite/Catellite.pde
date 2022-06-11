@@ -34,7 +34,7 @@ void setup(){
     frate = 20;
     frameRate(frate);
     
-    tv = 40; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
+    tv = 10; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
     
     v = new Vector(0,0);
 }
@@ -70,7 +70,9 @@ void setup(){
       //Math.abs(cat.getX()-width/2); //x component of distance
       ay = -8*(cat.getY()-height/2)/cat.getD(planets[0]); //acceleration(c) * y component of distance / distance <== ratio
       ax = -8*(cat.getX()-width/2)/cat.getD(planets[0]);
-      v.add(new Vector(ax,ay).divide(frate)); //add the velocity to v
+//      v.add(new Vector(ax,ay).divide(frate)); //add the velocity to v
+      v.setX(v.getX()+ax/frate);
+      v.setY(v.getY()+ay/frate);
       cat.setY(cat.getY()+v.getY());
       cat.setX(cat.getX()+v.getX());
     }
