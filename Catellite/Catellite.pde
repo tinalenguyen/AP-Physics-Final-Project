@@ -1,3 +1,5 @@
+//VERY IMPORTANT: fix issues with where planet is placed. affects px and py in catrocket which is important
+
 CatRocket cat;
 Planet planets[]; //why is this an array?
 int level;
@@ -5,7 +7,13 @@ PImage earthPlanet;
 PImage catRocket;
 PImage orbit;
 int initialVelocity;
+double ax; //x component of acceleration
+double ay; //y component of acceleratoin
 int stage; //has it started to move sideways yet
+int frate;
+double tv;
+Vector v;  //new Vector(0,0); always causes stackoverflow.... whyyyy
+
 
 void setup(){
     size(1080, 800);
@@ -20,16 +28,22 @@ void setup(){
     earthPlanet.resize(200, 190);
     catRocket = loadImage("catrocket.png");
     catRocket.resize(50, 50);
-    
-    
      
     planets[0] = new Earth();
+    
+    frate = 20;
+    frameRate(frate);
+    
+    tv = 40; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
+    
+    v = new Vector(0,0);
 }
 
  void draw(){
  
-    image(earthPlanet, height/2, 300); //should this be in setup?
-    image(catRocket, cat.getX(), cat.getY());
+    image(earthPlanet, height/2, 300); //should this be in setup? ALSO why are height/width swapped...
+    //image(earthPlanet, width/2-100, height/2-95); centered
+    image(catRocket, (float)cat.getX(), (float)cat.getY());
     
     ////TEST/////
     if (cat.getD(planets[0])> height/2 - 200 && stage == 1) //planets is weird AND we need orbit height here
@@ -38,12 +52,30 @@ void setup(){
     if (stage == 1)
       cat.setY(cat.getY() - 1);//initialVelocity is too fast, need to adjust pixels and meters
     else if (stage == 2){
+      //VERY TEMP
+      //v.add(new Vector(tv,0));  //causes stack overflow error
+      v.setX(tv);
+      stage = 3;
+      //VERY TEMP END
+      
       //if some condition for sideways boost to happen. Maybe mousepressed or some velocity limit
         //SIDEWAYS BOOST
-      //else stage = 3; 
+        //SIDEWAYS BOOS WILL SET THE TANGENTIAL VELOCITY??
+      //else stage = 3; this is onbly if there is some extended condition. If just one time thing move within the last if
     }
-    else
+    else{ //STAGE 3
+      //v.add(new Vector(0,1)); //based off gravity/frate (so in one second accelerates 9.8) TEST IS 8
+      //cat.setY(cat.getY());
+      //cat.setX(cat.getX()+1);
+      //Math.abs(cat.getX()-width/2); //x component of distance
+      ay = -8*(cat.getY()-height/2)/cat.getD(planets[0]); //acceleration(c) * y component of distance / distance <== ratio
+      ax = -8*(cat.getX()-width/2)/cat.getD(planets[0]);
+      v.add(new Vector(ax,ay).divide(frate)); //add the velocity to v
+      cat.setY(cat.getY()+v.getY());
+      cat.setX(cat.getX()+v.getX());
+    }
       //just move with velocity, need to include gravity I guess
+      //NOTE: NEED TO MAKE VELOCITY A VECTOR AND THEN MOVE THROUGH VECTOR ADDITION, MAYBE INSTINTANEOUS? quantity is weird
       
       
     ////ENDTEST////

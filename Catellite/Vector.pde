@@ -1,6 +1,6 @@
 public class Vector{
 
-    public final Vector ZERO = new Vector(0,0);
+    //public final Vector ZERO = new Vector(0,0);
     //public static final Vector ZERO = new Vector(0,0);
 
   private double x;
@@ -17,6 +17,14 @@ public class Vector{
 
   public double getY(){
     return y;
+  }
+  
+  public void setX(double newX){
+    x = newX; 
+  }
+  
+  public void setY(double newY){
+    y = newY;
   }
   
   public double magnitude(){
