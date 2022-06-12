@@ -17,7 +17,7 @@ Vector v;  //new Vector(0,0); always causes stackoverflow.... whyyyy
 
 void setup(){
     size(1080, 800);
-    background(0);
+    //background(0);
     level = 0;
     initialVelocity = 15;
     cat = new CatRocket(448648, (height/2)+70, 260);
@@ -37,17 +37,20 @@ void setup(){
     tv = 10; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
     
     v = new Vector(0,0);
+    
+
+
 }
 
  void draw(){
- 
+    background(0);
     image(earthPlanet, height/2, 300); //should this be in setup? ALSO why are height/width swapped...
     //image(earthPlanet, width/2-100, height/2-95); centered
     image(catRocket, (float)cat.getX(), (float)cat.getY());
     
     ////TEST/////
-    if (cat.getD(planets[0])> height/2 - 200 && stage == 1) //planets is weird AND we need orbit height here
-       stage = 2;
+//    if (cat.getD(planets[0])> height/2 - 200 && stage == 1) //planets is weird AND we need orbit height here
+//       stage = 2;
        
     if (stage == 1)
       cat.setY(cat.getY() - 1);//initialVelocity is too fast, need to adjust pixels and meters
@@ -114,4 +117,9 @@ void setup(){
      initialVelocity++;
    }
    
+ }
+ 
+ void keyPressed(){
+   if (stage == 1)
+     stage = 2;
  }
