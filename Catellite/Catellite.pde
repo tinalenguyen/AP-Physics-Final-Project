@@ -3,6 +3,8 @@
 CatRocket cat;
 Planet planets[]; //why is this an array?
 int level;
+Boolean win;
+Boolean landedOrbit;
 PImage earthPlanet;
 PImage catRocket;
 PImage orbit;
@@ -28,8 +30,10 @@ void setup(){
     level = 0;
     initialVelocity = 15*60; // in km/min  (yes it's a bit weird but it's for game speed/fluidity purposes)
     cat = new CatRocket(448648, (height/2)+70, 260);
-    planets = new Planet[3];
+    planets = new Planet[1];
     stage = 1; //starts at stage 1
+    win = true;
+    landedOrbit = false;
     
     earthPlanet = loadImage("earth.png");  
     earthPlanet.resize(200, 190); //width, height
@@ -57,10 +61,13 @@ void setup(){
     image(earthPlanet, height/2, 300); //why are height/width swapped...
     //image(earthPlanet, width/2-100, height/2-95); CENTERED VERSION
     image(catRocket, (float)cat.getX(), (float)cat.getY());
-
+    //print(win);
     //lose scenario
       // if statement related to distance between rocket and planet, if they overlap (doesn't need to be perfect) the player lose
-       
+    if (cat.getY() <= 492  && cat.getY() >= 259 && cat.getX() >= 398 && cat.getX() <= 410) { // if it falls into the earth the player loses
+       win = false;
+    }
+    
     if (stage == 1) //STAGE 1
       cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);//initialVelocity is too fast, need to adjust pixels and meters
     else if (stage == 2){ //STAGE 2
@@ -77,10 +84,10 @@ void setup(){
       ax = -g*(cat.getX()-width/2)/r*(60*60); //acceleration(g) * y component of distance / distance <== same ratio (similar triangles)
       ay = -g*(cat.getY()-height/2)/r*(60*60); //using this ratio is a substitute for using angles/trig, basically the same thing though
         //the (60*60) is to convert s^2 to min^2
-      print(ax);
-      print("\n");
-      print(ay);
-      print("\n");
+    //  print(ax);
+  //    print("\n");
+     // print(ay);
+      //print("\n");
         //^^width/2 and height/2 are the coordinates of the COM of the planet, so might change
       v.setX(v.getX()+ax*scaleToPixels/frate);
       v.setY(v.getY()+ay*scaleToPixels/frate);
