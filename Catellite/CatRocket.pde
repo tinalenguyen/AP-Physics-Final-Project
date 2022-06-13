@@ -10,7 +10,7 @@ public class CatRocket {
     this.y = y; //y = (height/2) + 70;
   }
   
-  public double getX(){
+  public double getX(){ //should this and y version be based on COM?
     return x;
   }
 
@@ -18,20 +18,20 @@ public class CatRocket {
     return y;
   }
   
-  public double getD(Planet p){
-    double py = height/2; //is this wrong?
+  public double getD(Planet p){ //includes radius of planet
+    double py = height/2; //is this wrong? --> these assume that the planet is centered at height/2 and width/2, which might not be the case
     double px = width/2; //is this wrong?
     double dSqrd = (x-px)*(x-px)+(y-py)*(y-py); 
-    d = Math.sqrt(dSqrd) - p.getRadius();
-    return d; 
+    d = Math.sqrt(dSqrd);// NOT NEEDED ANYMORE==> - p.getRadius();
+    return d; //IN PIXELS
   }
   
   public void setX(double newX){
-    x = newX; //this.x?
+    x = newX;
   }
   
   public void setY(double newY){
-    y = newY; //this.y?
+    y = newY;
   }
   
 }

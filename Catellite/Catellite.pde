@@ -9,37 +9,47 @@ PImage orbit;
 int initialVelocity;
 double ax; //x component of acceleration
 double ay; //y component of acceleratoin
+double g; //net acceleration due to gravity
+double M; //mass of planet (earth)
+double r; //distance from catrocket to COM of planet
+double G; //universal gravitational constant
+double scaleToKm; //value to scale pixels to km
+double scaleToPixels; //value to scale km to pixels
 int stage; //has it started to move sideways yet
+//int screen; //start screen maybe?
 int frate;
 double tv;
 Vector v;  //new Vector(0,0); always causes stackoverflow.... whyyyy
 
 
 void setup(){
-    size(1080, 800);
+    size(1080, 800); //width, height
     //background(0);
     level = 0;
-    initialVelocity = 15;
+    initialVelocity = 15*60; // in km/min  (yes it's a bit weird but it's for game speed/fluidity purposes)
     cat = new CatRocket(448648, (height/2)+70, 260);
     planets = new Planet[3];
-    stage = 1;
+    stage = 1; //starts at stage 1
     
     earthPlanet = loadImage("earth.png");  
-    earthPlanet.resize(200, 190);
+    earthPlanet.resize(200, 190); //width, height
     catRocket = loadImage("catrocket.png");
     catRocket.resize(50, 50);
      
     planets[0] = new Earth();
     
-    frate = 20;
+    frate = 60;
     frameRate(frate);
     
     tv = 10; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
-    
+    //tv should be in km/s
     v = new Vector(0,0);
     
+    M = planets[0].getMass();
+    G = 6.67*Math.pow(10,-11)*Math.pow(10,-6); //6.67*10^(-11) and then *10^(-6) to convert from being scaled by m to km
 
-
+    scaleToKm = planets[0].getRadius()/95; //95 is approximately the radius of the planet in pixels
+    scaleToPixels = 95/planets[0].getRadius();
 }
 
  void draw(){
@@ -51,9 +61,12 @@ void setup(){
     ////TEST/////
 //    if (cat.getD(planets[0])> height/2 - 200 && stage == 1) //planets is weird AND we need orbit height here
 //       stage = 2;
+
+    //lose scenario
+      // if statement related to distance between rocket and planet, if they overlap (doesn't need to be perfect) the player lose
        
     if (stage == 1)
-      cat.setY(cat.getY() - 1);//initialVelocity is too fast, need to adjust pixels and meters
+      cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);//initialVelocity is too fast, need to adjust pixels and meters
     else if (stage == 2){
       //VERY TEMP
       //v.add(new Vector(tv,0));  //causes stack overflow error
@@ -71,11 +84,22 @@ void setup(){
       //cat.setY(cat.getY());
       //cat.setX(cat.getX()+1);
       //Math.abs(cat.getX()-width/2); //x component of distance
-      ay = -8*(cat.getY()-height/2)/cat.getD(planets[0]); //acceleration(c) * y component of distance / distance <== ratio
-      ax = -8*(cat.getX()-width/2)/cat.getD(planets[0]);
+      
+      r = cat.getD(planets[0])*scaleToKm; //includes radius of planet
+      print(r); 
+      g = G*M/(r*r); //equation for acceleration due to gravity
+      print(", ");
+      print(g);
+      print("\n");  //all print statements just for testing
+      ax = g*(cat.getX()-width/2)/r; //acceleration(g) * y component of distance / distance <== same ratio (similar triangles)
+      ay = g*(cat.getY()-height/2)/r; //using this ratio is a substitute for using angles/trig, basically the same thing though
+      //^^width/2 and height/2 are the coordinates of the COM of the planet, so might change
+
+//      ay = -8*(cat.getY()-height/2)/cat.getD(planets[0]); //acceleration(c) * y component of distance / distance <== ratio
+//      ax = -8*(cat.getX()-width/2)/cat.getD(planets[0]);
 //      v.add(new Vector(ax,ay).divide(frate)); //add the velocity to v
-      v.setX(v.getX()+ax/frate);
-      v.setY(v.getY()+ay/frate);
+      v.setX(v.getX()+ax*scaleToPixels/frate);
+      v.setY(v.getY()+ay*scaleToPixels/frate);
       cat.setY(cat.getY()+v.getY());
       cat.setX(cat.getX()+v.getX());
     }

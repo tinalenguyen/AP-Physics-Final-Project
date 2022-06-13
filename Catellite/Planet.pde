@@ -4,6 +4,10 @@ public class Planet {
  double radius; //in km
  float gravity; // constant for each planet, m/(s^2)
  
+ public double getMass(){
+   return mass; 
+ }
+ 
  public double getRadius(){
    return radius; 
  }
@@ -16,9 +20,10 @@ public class Planet {
 
 class Earth extends Planet {
   Earth(){
-     mass = 5.972*Math.pow(10, 24);
-     //radius = 6563;  THIS IS IN ACTUAL UNITS, HOW DO WE CONVERT...
-     radius = 50; //random number
+     mass = 5.972*Math.pow(10, 24); //in kg
+     radius = 6371; //in km
+     //radius = 6563;
+     //radius = 50; //random number
      gravity = 9.8;
   }
   
