@@ -35,7 +35,7 @@ void setup(){
     cat = new CatRocket(448648, width/2-25, height/2-145);
     planets = new Planet[1];
     showHelp = false;
-    stage = 1; //starts at stage 1
+    stage = 0; //starts at stage 0
     landedOrbit = false;
     orbitCount = 1;
     crash = false;
@@ -113,13 +113,14 @@ void setup(){
       }
      
 
-    if (stage == 1) //STAGE 1
+    if (stage == 1){ //STAGE 1: launch
       cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);//initialVelocity is too fast, need to adjust pixels and meters
-    else if (stage == 2){ //STAGE 2
+    }
+    else if (stage == 2){ //STAGE 2: tangential velocity
       v.setX(tv*scaleToPixels/frate);
       stage = 3;
     }
-    else{ //STAGE 3      
+    else if (stage == 3){ //STAGE 3: orbit     
       r = cat.getD()*scaleToKm; //includes radius of planet
       g = G*M/(r*r); //equation for acceleration due to gravity
       ax = -g*(cat.getX()-width/2)/r*(60*60); //acceleration(g) * y component of distance / distance <== same ratio (similar triangles)
@@ -164,15 +165,19 @@ void setup(){
  }
  
  void mousePressed(){
-   if (mouseX < 81 && mouseX>0 && mouseY < 1080 && mouseY > 710){
-     initialVelocity+=60;
+   if (mouseX < 81 && mouseX>0 && mouseY < 1080 && mouseY > 710){ //decrease velocity
+     initialVelocity-=60;
    }
-   if (mouseX < 350 && mouseX > 280 && mouseY < 1080 && mouseY > 710){
+   if (mouseX < 350 && mouseX > 280 && mouseY < 1080 && mouseY > 710){ //increase velocity
      initialVelocity+=60;
    }
    
-   if (mouseX > 900 && mouseY < 80){
+   if (mouseX > 900 && mouseY < 80){ //help
      showHelp =  !showHelp;
+   }
+   
+   if (mouseX < 1080 && mouseX > 845 && mouseY < 800 && mouseY > 733){ //launch
+     stage = 1;
    }
    
  }
