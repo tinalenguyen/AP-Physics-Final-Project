@@ -1,5 +1,3 @@
-//VERY IMPORTANT: fix issues with where planet is placed. affects px and py in catrocket which is important
-
 CatRocket cat;
 Planet planets[];
 int level;
@@ -29,7 +27,6 @@ Vector v; //velocity vector
 
 void setup(){
     size(1080, 800); //width, height
-    //background(0);
     level = 0;
     initialVelocity = 15*60; // in km/min  (yes it's a bit weird but it's for game speed/fluidity purposes)
     cat = new CatRocket(448648, width/2-25, height/2-145);
@@ -108,13 +105,13 @@ void setup(){
       crash = true;
     }
     
-      if (stage == 3 && (int) cat.getX() == (int) startX - 1 && cat.getY() > 410){
+      if (stage == 3 && (int) cat.getX() == (int) startX - 5 && cat.getY() < 350){
         orbitCount++;
       }
      
 
     if (stage == 1){ //STAGE 1: launch
-      cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);//initialVelocity is too fast, need to adjust pixels and meters
+      cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);
     }
     else if (stage == 2){ //STAGE 2: tangential velocity
       v.setX(tv*scaleToPixels/frate);

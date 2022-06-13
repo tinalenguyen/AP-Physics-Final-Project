@@ -59,15 +59,5 @@ public class Vector{
     Vector res = new Vector(quoX, quoY);
     return res;
   }
-  
-//MIGHT NEED THIS FOR SCALING UNITS TO PIXELS  
-//  public Vector scale(double x, double y) {
-//    return new Vector(getX()*x, getY()*y);
-//  }
-
-  public Vector normalized(){
-    double m = magnitude();
-    return divide(m);
-  }
 
 }
