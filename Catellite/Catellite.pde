@@ -17,8 +17,8 @@ double scaleToKm; //value to scale pixels to km
 double scaleToPixels; //value to scale km to pixels
 int stage; //has it started to move sideways yet
 //int screen; //start screen maybe?
-int frate;
-double tv;
+int frate; //frame rate
+double tv; //tangential velocity magnitude
 Vector v;  //new Vector(0,0); always causes stackoverflow.... whyyyy
 
 
@@ -41,8 +41,8 @@ void setup(){
     frate = 60;
     frameRate(frate);
     
-    tv = 10; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
-    //tv should be in km/s
+    //tv = 10; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
+    tv = 100*60; // in km/min THIS IS A BIT TOO BIG??
     v = new Vector(0,0);
     
     M = planets[0].getMass();
@@ -70,7 +70,7 @@ void setup(){
     else if (stage == 2){
       //VERY TEMP
       //v.add(new Vector(tv,0));  //causes stack overflow error
-      v.setX(tv);
+      v.setX(tv*scaleToPixels/frate);
       stage = 3;
       //VERY TEMP END
       
@@ -86,13 +86,18 @@ void setup(){
       //Math.abs(cat.getX()-width/2); //x component of distance
       
       r = cat.getD(planets[0])*scaleToKm; //includes radius of planet
-      print(r); 
+      //print(r); 
       g = G*M/(r*r); //equation for acceleration due to gravity
-      print(", ");
-      print(g);
-      print("\n");  //all print statements just for testing
-      ax = g*(cat.getX()-width/2)/r; //acceleration(g) * y component of distance / distance <== same ratio (similar triangles)
-      ay = g*(cat.getY()-height/2)/r; //using this ratio is a substitute for using angles/trig, basically the same thing though
+      //print(", ");
+      //print(g);
+      //print("\n");  //all print statements just for testing
+      ax = -g*(cat.getX()-width/2)/r*(60*60); //acceleration(g) * y component of distance / distance <== same ratio (similar triangles)
+      ay = -g*(cat.getY()-height/2)/r*(60*60); //using this ratio is a substitute for using angles/trig, basically the same thing though
+        //the (60*60) is to convert s^2 to min^2
+      print(ax);
+      print("\n");
+      print(ay);
+      print("\n");
       //^^width/2 and height/2 are the coordinates of the COM of the planet, so might change
 
 //      ay = -8*(cat.getY()-height/2)/cat.getD(planets[0]); //acceleration(c) * y component of distance / distance <== ratio
