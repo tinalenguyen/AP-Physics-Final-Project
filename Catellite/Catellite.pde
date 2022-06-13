@@ -3,7 +3,8 @@
 CatRocket cat;
 Planet planets[]; //why is this an array?
 int level;
-Boolean win;
+int orbitCount;
+Boolean crash;
 Boolean landedOrbit;
 PImage earthPlanet;
 PImage catRocket;
@@ -18,6 +19,8 @@ double G; //universal gravitational constant
 double scaleToKm; //value to scale pixels to km
 double scaleToPixels; //value to scale km to pixels
 int stage; //has it started to move sideways yet
+double startX; // x coord of when the cat rocket started going sideways
+double startY; // y coord of when the cat rocket started going sideways
 //int screen; //start screen maybe?
 int frate; //frame rate
 double tv; //tangential velocity magnitude
@@ -32,8 +35,11 @@ void setup(){
     cat = new CatRocket(448648, (height/2)+70, 260);
     planets = new Planet[1];
     stage = 1; //starts at stage 1
-    win = true;
     landedOrbit = false;
+    orbitCount = 0;
+    crash = false;
+    startX = 0;
+    startY = 0;
     
     earthPlanet = loadImage("earth.png");  
     earthPlanet.resize(200, 190); //width, height
@@ -57,17 +63,40 @@ void setup(){
 }
 
  void draw(){
+    if (!crash){
     background(0);
     image(earthPlanet, height/2, 300); //why are height/width swapped...
     //image(earthPlanet, width/2-100, height/2-95); CENTERED VERSION
     image(catRocket, (float)cat.getX(), (float)cat.getY());
+    }
+        print("orbit count: " + orbitCount + "\n");
+        print("start: " + startX+ "\n");
+       // print(cat.getX()==startX);
+     //   print("Cat coord" + cat.getX());
+       // print("stage" +stage);
     //print(win);
     //lose scenario
-      // if statement related to distance between rocket and planet, if they overlap (doesn't need to be perfect) the player lose
-    if (cat.getY() <= 492  && cat.getY() >= 259 && cat.getX() >= 398 && cat.getX() <= 410) { // if it falls into the earth the player loses
-       win = false;
-    }
+     print("x:" + cat.getX()+ "\n");
+    print("y:" + cat.getY()+ "\n");
     
+    if (crash == true){
+      clear();
+      fill(#EA88FA);
+      textSize(40);
+      
+      text("YOU LOST", width/2 - 40, height/2);
+    }
+      // if statement related to distance between rocket and planet, if they overlap (doesn't need to be perfect) the player lose
+    if (cat.getY() < 476  && cat.getY() > 308 && cat.getX() > 410 && cat.getX() < 560) { // if it falls into the earth the player loses
+       crash = true;
+    }// adjust the coordinates after moving the planet!
+    
+    if (stage == 3){
+      if ((int) cat.getX() ==(int) startX && cat.getY() > height/2){
+        orbitCount++;
+      }
+     }
+
     if (stage == 1) //STAGE 1
       cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);//initialVelocity is too fast, need to adjust pixels and meters
     else if (stage == 2){ //STAGE 2
@@ -97,8 +126,7 @@ void setup(){
 
     noFill();
     stroke(#EA88FA);
-    ellipse(height/2 + 150, 400, 730, 450);
-    fill(#EA88FA);
+     fill(#EA88FA);
     // LAUNCH BUTTON
     rect(845, 733, 235, 67);
     // VELOCITY  BUTTON
@@ -115,7 +143,7 @@ void setup(){
       
   
     
-  //  if (mousePressed) print(mouseX + "," + mouseY + "!");
+    if (mousePressed) print(mouseX + "," + mouseY + "!");
  }
  
  void mousePressed(){
@@ -131,4 +159,6 @@ void setup(){
  void keyPressed(){
    if (stage == 1)
      stage = 2;
+     startX = cat.getX();
+     startY = cat.getY();
  }
