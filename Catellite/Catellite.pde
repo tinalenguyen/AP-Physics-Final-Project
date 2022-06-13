@@ -35,7 +35,7 @@ void setup(){
     planets = new Planet[1];
     stage = 1; //starts at stage 1
     landedOrbit = false;
-    orbitCount = 0;
+    orbitCount = 1;
     crash = false;
     startX = 0;
     startY = 0;
@@ -65,18 +65,33 @@ void setup(){
     background(0);
     image(earthPlanet, width/2-100, height/2-95);
     image(catRocket, (float)cat.getX(), (float)cat.getY());
+
     }
         //print("orbit count: " + orbitCount + "\n");
         //print("start: " + startX+ "\n");
         //print("x:" + cat.getX()+ "\n");
         //print("y:" + cat.getY()+ "\n");
-    
+
     if (crash == true){
       clear();
       fill(#EA88FA);
       textSize(40);
       
       text("YOU LOST", width/2 - 70, height/2);
+      rect(454, 425,  225, 50);
+      fill(0);
+      text("Play Again", width/2 - 75, height/2 +  60 );
+      if (mousePressed && mouseX > 454 && mouseX < 679 && mouseY > 425 && mouseY < 475){
+        setup();
+      }
+    }
+     print(orbitCount);
+     if (orbitCount >= 5){
+      clear();
+      fill(#EA88FA);
+      textSize(40);
+      
+      text("YOU WON!", width/2 - 70, height/2);
       rect(454, 425,  225, 50);
       fill(0);
       text("Play Again", width/2 - 75, height/2 +  60 );
@@ -92,7 +107,7 @@ void setup(){
       crash = true;
     }
     
-      if (stage == 3 && (int) cat.getX() == (int) startX - 10 && cat.getY() > height/2){
+      if (stage == 3 && (int) cat.getX() == (int) startX - 1 && cat.getY() > 410){
         orbitCount++;
       }
      
@@ -133,7 +148,7 @@ void setup(){
     text("km/s", 160, 765);
     text("+",  290,  765);
       
-  
+
     
     if (mousePressed) print(mouseX + "," + mouseY + "!");
  }
