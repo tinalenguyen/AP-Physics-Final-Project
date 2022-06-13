@@ -5,6 +5,7 @@ Planet planets[];
 int level;
 int orbitCount;
 Boolean crash;
+Boolean showHelp;
 Boolean landedOrbit;
 PImage earthPlanet;
 PImage catRocket;
@@ -33,6 +34,7 @@ void setup(){
     initialVelocity = 15*60; // in km/min  (yes it's a bit weird but it's for game speed/fluidity purposes)
     cat = new CatRocket(448648, width/2-25, height/2-145);
     planets = new Planet[1];
+    showHelp = false;
     stage = 1; //starts at stage 1
     landedOrbit = false;
     orbitCount = 1;
@@ -65,7 +67,7 @@ void setup(){
     background(0);
     image(earthPlanet, width/2-100, height/2-95);
     image(catRocket, (float)cat.getX(), (float)cat.getY());
-
+    
     }
         //print("orbit count: " + orbitCount + "\n");
         //print("start: " + startX+ "\n");
@@ -85,8 +87,7 @@ void setup(){
         setup();
       }
     }
-     print(orbitCount);
-     if (orbitCount >= 5){
+      if (orbitCount >= 5){
       clear();
       fill(#EA88FA);
       textSize(40);
@@ -133,11 +134,13 @@ void setup(){
 
     noFill();
     stroke(#EA88FA);
-     fill(#EA88FA);
+    fill(#EA88FA);
     // LAUNCH BUTTON
     rect(845, 733, 235, 67);
     // VELOCITY  BUTTON
     rect(0, 710, 350, 90);
+    //HELP BUTTON
+    rect(900, 0, 250, 75);
     
     // TEXTS
     fill(0);
@@ -147,8 +150,15 @@ void setup(){
     text(initialVelocity/60, 90, 765);
     text("km/s", 160, 765);
     text("+",  290,  765);
-      
-
+    text("Help", 950, 50);
+    if (showHelp){
+    fill(#EA88FA);
+    textSize(20);
+    text("Set your starting velocity and then launch! Then, press any key to set off the side rockets.", 10, 50);
+    text("If the rocket manages to orbit the Earth a certain number of times, then you will win.", 10, 80);
+    text("If the rocket hits the Earth or goes out of bounds, you lose.", 10, 110);
+    text("Press the Help button again to hide this message!", 10, 140);
+    }
     
     if (mousePressed) print(mouseX + "," + mouseY + "!");
  }
@@ -159,6 +169,10 @@ void setup(){
    }
    if (mouseX < 350 && mouseX > 280 && mouseY < 1080 && mouseY > 710){
      initialVelocity+=60;
+   }
+   
+   if (mouseX > 900 && mouseY < 80){
+     showHelp =  !showHelp;
    }
    
  }
