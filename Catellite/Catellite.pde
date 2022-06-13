@@ -34,7 +34,7 @@ void setup(){
     showHelp = false;
     stage = 0; //starts at stage 0
     landedOrbit = false;
-    orbitCount = 1;
+    orbitCount = 0;
     crash = false;
     startX = 0;
     startY = 0;
@@ -46,7 +46,7 @@ void setup(){
      
     planets[0] = new Earth();
     
-    frate = 60;
+    frate = 80;
     frameRate(frate);
     
     tv = 100*60; // in km/min
