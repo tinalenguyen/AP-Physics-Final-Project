@@ -1,7 +1,7 @@
 //VERY IMPORTANT: fix issues with where planet is placed. affects px and py in catrocket which is important
 
 CatRocket cat;
-Planet planets[]; //why is this an array?
+Planet planets[];
 int level;
 int orbitCount;
 Boolean crash;
@@ -21,7 +21,6 @@ double scaleToPixels; //value to scale km to pixels
 int stage; //has it started to move sideways yet
 double startX; // x coord of when the cat rocket started going sideways
 double startY; // y coord of when the cat rocket started going sideways
-//int screen; //start screen maybe?
 int frate; //frame rate
 double tv; //tangential velocity magnitude
 Vector v; //velocity vector
@@ -51,8 +50,7 @@ void setup(){
     frate = 60;
     frameRate(frate);
     
-    //tv = 10; //tangential velocity for testing, should be determined in phase 2, this is how we got 8 later
-    tv = 100*60; // in km/min THIS IS A BIT TOO BIG??
+    tv = 100*60; // in km/min
     v = new Vector(0,0);
     
     M = planets[0].getMass();
@@ -104,18 +102,10 @@ void setup(){
     }
     else{ //STAGE 3      
       r = cat.getD()*scaleToKm; //includes radius of planet
-      //print(r); 
       g = G*M/(r*r); //equation for acceleration due to gravity
-      //print(", ");
-      //print(g);
-      //print("\n");  //all print statements just for testing
       ax = -g*(cat.getX()-width/2)/r*(60*60); //acceleration(g) * y component of distance / distance <== same ratio (similar triangles)
       ay = -g*(cat.getY()-height/2)/r*(60*60); //using this ratio is a substitute for using angles/trig, basically the same thing though
         //the (60*60) is to convert s^2 to min^2
-    //  print(ax);
-  //    print("\n");
-     // print(ay);
-      //print("\n");
         //^^width/2 and height/2 are the coordinates of the COM of the planet, so might change
       v.setX(v.getX()+ax*scaleToPixels/frate);
       v.setY(v.getY()+ay*scaleToPixels/frate);
