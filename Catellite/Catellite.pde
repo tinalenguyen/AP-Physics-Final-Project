@@ -54,37 +54,20 @@ void setup(){
 
  void draw(){
     background(0);
-    image(earthPlanet, height/2, 300); //should this be in setup? ALSO why are height/width swapped...
-    //image(earthPlanet, width/2-100, height/2-95); centered
+    image(earthPlanet, height/2, 300); //why are height/width swapped...
+    //image(earthPlanet, width/2-100, height/2-95); CENTERED VERSION
     image(catRocket, (float)cat.getX(), (float)cat.getY());
-    
-    ////TEST/////
-//    if (cat.getD(planets[0])> height/2 - 200 && stage == 1) //planets is weird AND we need orbit height here
-//       stage = 2;
 
     //lose scenario
       // if statement related to distance between rocket and planet, if they overlap (doesn't need to be perfect) the player lose
        
-    if (stage == 1)
+    if (stage == 1) //STAGE 1
       cat.setY(cat.getY() - initialVelocity*scaleToPixels/frate);//initialVelocity is too fast, need to adjust pixels and meters
-    else if (stage == 2){
-      //VERY TEMP
-      //v.add(new Vector(tv,0));  //causes stack overflow error
+    else if (stage == 2){ //STAGE 2
       v.setX(tv*scaleToPixels/frate);
       stage = 3;
-      //VERY TEMP END
-      
-      //if some condition for sideways boost to happen. Maybe mousepressed or some velocity limit
-        //SIDEWAYS BOOST
-        //SIDEWAYS BOOS WILL SET THE TANGENTIAL VELOCITY??
-      //else stage = 3; this is onbly if there is some extended condition. If just one time thing move within the last if
     }
-    else{ //STAGE 3
-      //v.add(new Vector(0,1)); //based off gravity/frate (so in one second accelerates 9.8) TEST IS 8
-      //cat.setY(cat.getY());
-      //cat.setX(cat.getX()+1);
-      //Math.abs(cat.getX()-width/2); //x component of distance
-      
+    else{ //STAGE 3      
       r = cat.getD(planets[0])*scaleToKm; //includes radius of planet
       //print(r); 
       g = G*M/(r*r); //equation for acceleration due to gravity
@@ -98,23 +81,13 @@ void setup(){
       print("\n");
       print(ay);
       print("\n");
-      //^^width/2 and height/2 are the coordinates of the COM of the planet, so might change
-
-//      ay = -8*(cat.getY()-height/2)/cat.getD(planets[0]); //acceleration(c) * y component of distance / distance <== ratio
-//      ax = -8*(cat.getX()-width/2)/cat.getD(planets[0]);
-//      v.add(new Vector(ax,ay).divide(frate)); //add the velocity to v
+        //^^width/2 and height/2 are the coordinates of the COM of the planet, so might change
       v.setX(v.getX()+ax*scaleToPixels/frate);
       v.setY(v.getY()+ay*scaleToPixels/frate);
       cat.setY(cat.getY()+v.getY());
       cat.setX(cat.getX()+v.getX());
     }
-      //just move with velocity, need to include gravity I guess
-      //NOTE: NEED TO MAKE VELOCITY A VECTOR AND THEN MOVE THROUGH VECTOR ADDITION, MAYBE INSTINTANEOUS? quantity is weird
-      
-      
-    ////ENDTEST////
-    
-    //image(catRocket, (height/2) + 70, 260);
+
     noFill();
     stroke(#EA88FA);
     ellipse(height/2 + 150, 400, 730, 450);
