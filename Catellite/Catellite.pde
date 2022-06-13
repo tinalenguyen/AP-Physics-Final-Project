@@ -86,8 +86,11 @@ void setup(){
     }
       // if statement related to distance between rocket and planet, if they overlap (doesn't need to be perfect) the player lose
     if (cat.getY() < 476  && cat.getY() > 308 && cat.getX() > 410 && cat.getX() < 560) { // if it falls into the earth the player loses
-       crash = true;
+      crash = true;
     }// adjust the coordinates after moving the planet!
+    if (cat.getY() < 0 || cat.getY() > 800 || cat.getX() < 0 || cat.getX() > 1080 && stage!=1){
+      crash = true;
+    }
     
       if (stage == 3 && (int) cat.getX() == (int) startX - 10 && cat.getY() > height/2){
         orbitCount++;
