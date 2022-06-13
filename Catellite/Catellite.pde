@@ -19,7 +19,7 @@ int stage; //has it started to move sideways yet
 //int screen; //start screen maybe?
 int frate; //frame rate
 double tv; //tangential velocity magnitude
-Vector v;  //new Vector(0,0); always causes stackoverflow.... whyyyy
+Vector v; //velocity vector
 
 
 void setup(){
@@ -129,7 +129,7 @@ void setup(){
     textSize(40);
     text("Launch", 900, 780);
     text("-", 30, 767);
-    text(initialVelocity, 90, 765);
+    text(initialVelocity/60, 90, 765);
     text("km/s", 160, 765);
     text("+",  290,  765);
       
@@ -140,10 +140,10 @@ void setup(){
  
  void mousePressed(){
    if (mouseX < 81 && mouseX>0 && mouseY < 1080 && mouseY > 710){
-     initialVelocity--;
+     initialVelocity+=60;
    }
    if (mouseX < 350 && mouseX > 280 && mouseY < 1080 && mouseY > 710){
-     initialVelocity++;
+     initialVelocity+=60;
    }
    
  }
