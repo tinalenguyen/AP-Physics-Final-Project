@@ -18,9 +18,9 @@ public class CatRocket {
     return y;
   }
   
-  public double getD(Planet p){ //includes radius of planet
-    double py = height/2; //is this wrong? --> these assume that the planet is centered at height/2 and width/2, which might not be the case
-    double px = width/2; //is this wrong?
+  public double getD(){ //includes radius of planet
+    double py = height/2;
+    double px = width/2;
     double dSqrd = (x-px)*(x-px)+(y-py)*(y-py); 
     d = Math.sqrt(dSqrd);// NOT NEEDED ANYMORE==> - p.getRadius();
     return d; //IN PIXELS

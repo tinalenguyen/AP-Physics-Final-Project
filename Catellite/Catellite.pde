@@ -32,7 +32,7 @@ void setup(){
     //background(0);
     level = 0;
     initialVelocity = 15*60; // in km/min  (yes it's a bit weird but it's for game speed/fluidity purposes)
-    cat = new CatRocket(448648, (height/2)+70, 260);
+    cat = new CatRocket(448648, width/2-25, height/2-145);
     planets = new Planet[1];
     stage = 1; //starts at stage 1
     landedOrbit = false;
@@ -65,8 +65,7 @@ void setup(){
  void draw(){
     if (!crash){
     background(0);
-    image(earthPlanet, height/2, 300); //why are height/width swapped...
-    //image(earthPlanet, width/2-100, height/2-95); CENTERED VERSION
+    image(earthPlanet, width/2-100, height/2-95);
     image(catRocket, (float)cat.getX(), (float)cat.getY());
     }
         //print("orbit count: " + orbitCount + "\n");
@@ -104,7 +103,7 @@ void setup(){
       stage = 3;
     }
     else{ //STAGE 3      
-      r = cat.getD(planets[0])*scaleToKm; //includes radius of planet
+      r = cat.getD()*scaleToKm; //includes radius of planet
       //print(r); 
       g = G*M/(r*r); //equation for acceleration due to gravity
       //print(", ");
